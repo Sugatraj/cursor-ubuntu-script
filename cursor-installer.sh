@@ -12,11 +12,11 @@ CURSOR_URL="https://downloader.cursor.sh/linux/appImage"
 mkdir -p "$APPDIR" "$(dirname "$ICON_PATH")" "$(dirname "$DESKTOP_FILE_PATH")"
 
 echo "🔍 Checking for latest Cursor release..."
-# Follow redirect to get actual filename
+# Follow redirect to get actual latest filename
 LATEST_URL=$(curl -sIL -o /dev/null -w '%{url_effective}' "$CURSOR_URL")
 LATEST_FILE="$APPDIR/$(basename "$LATEST_URL")"
 
-# === Check if already up-to-date ===
+# === Check if already downloaded ===
 if [ -f "$LATEST_FILE" ]; then
     echo "✅ Already have the latest Cursor: $(basename "$LATEST_FILE")"
 else
@@ -56,5 +56,9 @@ EOF
 else
     echo "✅ .desktop file already up-to-date."
 fi
+
+# === Print installed version ===
+echo "ℹ️ Installed Cursor version info:"
+"$SYMLINK_PATH" --version || true
 
 echo "🎉 Cursor setup complete!"
